@@ -1,0 +1,64 @@
+# Smart Parking Detection - Configuration
+
+detection:
+  model_path: "models/yolov5l.pt"
+  model_type: "yolov5l"  # yolov5s, yolov5m, yolov5l, yolov5x
+  confidence_threshold: 0.45
+  nms_threshold: 0.45
+  input_size: 640
+  device: "cuda"  # cuda or cpu
+  batch_size: 4
+  classes:
+    - car
+    - truck
+    - bus
+    - motorcycle
+
+tracking:
+  tracker_type: "deepsort"
+  max_age: 30
+  min_hits: 3
+  feature_dim: 128
+  max_cosine_distance: 0.5
+  nn_budget: 100
+
+parking:
+  spaces_config: "config/parking_config.json"
+  occupancy_threshold: 0.5
+  tracking_duration: 5
+  enable_violations: true
+
+video:
+  fps_target: 30
+  frame_resize_factor: 1.0
+  output_codec: "mp4v"
+  output_quality: "medium"
+
+api:
+  host: "0.0.0.0"
+  port: 8000
+  debug: false
+  cors_origins:
+    - "*"
+  update_interval: 0.1
+
+logging:
+  level: "INFO"
+  file_path: "logs/parking_detection.log"
+  max_bytes: 10485760
+  backup_count: 5
+
+performance:
+  enable_profiling: false
+  num_workers: 4
+  gpu_memory_fraction: 0.8
+
+database:
+  type: "postgresql"
+  connection_string: "postgresql://user:password@localhost:5432/parking_db"
+
+analytics:
+  enable_forecasting: true
+  forecast_horizon: 30  # minutes
+  enable_heatmaps: true
+  heatmap_resolution: 50  # pixels
